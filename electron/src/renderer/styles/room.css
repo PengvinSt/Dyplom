@@ -1,0 +1,162 @@
+.room-container {
+  min-height: 700px;
+  width: 600px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  border:transparent;
+  border-radius: 30px;
+  gap:10px;
+  color: #222;
+  text-shadow: 1px 1px 1px #da3b53;
+  box-shadow:0px 17px 10px -10px rgba(0,0,0,0.4);
+  border-bottom: 0.25em solid #A71D31;
+  background-color: #A71D31;
+}
+.modal-accept-container {
+  min-height: 300px;
+  min-width: 300px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  border:transparent;
+  border-radius: 30px;
+  gap:10px;
+  color: #222;
+  text-shadow: 1px 1px 1px #da3b53;
+  box-shadow:0px 17px 10px -10px rgba(0,0,0,0.4);
+  border-bottom: 0.25em solid #A71D31;
+  background-color: #A71D31;
+  padding:0 20px;
+}
+
+.room-admin-container {
+  min-height: 700px;
+  min-width: 150px;
+  padding:0 15px;
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  border:transparent;
+  border-radius: 30px;
+  gap:10px;
+  color: #222;
+  text-shadow: 1px 1px 1px #da3b53;
+  box-shadow:0px 17px 10px -10px rgba(0,0,0,0.4);
+  border-bottom: 0.25em solid #A71D31;
+  background-color: #A71D31;
+}
+
+.msg-field {
+  height: 400px;
+  width: 500px;
+  background: #e4873163;
+  box-shadow:0px 17px 10px -10px rgba(0,0,0,0.4);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 10px 5px 10px;
+  gap: 3px;
+}
+.room-admin-userslist {
+  min-height: 500px;
+  min-width: 140px;
+  background: #e4873163;
+  box-shadow:0px 17px 10px -10px rgba(0,0,0,0.4);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 10px 15px 10px;
+  gap: 10px;
+}
+.admin-userlist-user-container {
+  display: flex;
+  align-items: center;
+  gap:10px;
+}
+.modal-accept-button-container {
+  display: flex;
+  align-items: center;
+  gap:5px;
+}
+
+.msg-holder {
+  padding: 0;
+  margin: 0;
+  text-align: end;
+}
+.current-user {
+  text-align: start;
+}
+
+.inner-room-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap:15px;
+  width: 500px;
+}
+
+.input-room-container {
+  width: 100%;
+  display: flex;
+  gap:10px;
+  justify-content: center;
+}
+.msg-room-input {
+  background: #e78e3b;
+  padding-left: 10px;
+  height: 50px;
+  width: 100%;
+  border-radius: 10px;
+  font-size: 20px;
+  outline: none;
+  border: none;
+  box-shadow: 0px 5px 0px #c46e1f;
+}
+
+.msg-room-button {
+  width: 70px;
+  height: 50px;
+}
+
+.delete-user-button {
+  width: 70px;
+  height: 30px;
+}
+
+.modal-useraccept-button {
+  width: 150px;
+  height: 30px;
+}
+
+.send-room-button , .msg-room-button,.delete-user-button,.modal-useraccept-button {
+  background: #FB8B24;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  height: 50px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #222;
+  text-shadow: 1px 1px 1px #c77c37;
+}
+.send-room-button , .msg-room-button, .delete-user-button,.modal-useraccept-button {
+  position: relative;
+  top: 0px;
+  box-shadow: 0px 5px 0px #cf741e;
+  transition: All 250ms ease;
+}
+
+.send-room-button:active , .msg-room-button:active, .delete-user-button:active,.modal-useraccept-button:active {
+  position: relative;
+  top: 5px;
+  box-shadow: none;
+  transition: All 250ms ease;
+}
