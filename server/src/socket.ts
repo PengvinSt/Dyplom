@@ -9,9 +9,10 @@ export default class SocketConnect {
     activeUsers:{uId:string}[] = []
 
     startUp() {
-        this.io.on("connect", (socket) => {
+        this.io.on("connect", async(socket) => {
             const uId:string = String(socket.handshake.headers.userid)
             const roomId:string = String(socket.handshake.headers.id)
+            const room = await Chat.findOne({ roomId: roomId })
             socket.join(uId)
             socket.emit("Connected")
             if (!this.activeUsers.some((user) => user.uId === uId)) {
@@ -30,7 +31,6 @@ export default class SocketConnect {
                     roomId: roomId,
                     uId: uId,
                 })
-                const room = await Chat.findOne({ roomId: roomId })
                 if (room?.roomAdmId === uId) {
                     await Chat.deleteOne({ roomId: roomId });
                     this.activeUsers.map((user) =>{
@@ -53,8 +53,8 @@ export default class SocketConnect {
         
 
         this.io.on('connection', (socket) => {
-            socket.on('chat message', async (msg) => {
-                let data:IMessage = msg
+            socket.on('chat message', async (req) => {
+                let data:IMessage = req
 
                 let chat:IChat | null = await Chat.findOne({ roomId:data.roomId })
                 
@@ -62,11 +62,30 @@ export default class SocketConnect {
                     chat.users.forEach(user =>
                         {
                             if(user.uId === data.senderId) return
-                            socket.in(user.uId).emit("chat message send",data.message)
+                            const res:{ uId: string; msg: string } = {
+                                msg:data.message,
+                                uId:data.senderId,
+                            }
+                            socket.in(user.uId).emit("chat message send",res)
                         }
                     )
                 } 
             });
+
+            socket.on('check permission', async (data)=> {
+                const roomId:string = String(socket.handshake.headers.id)
+                const room = await Chat.findOne({ roomId: roomId })
+                if (room && room.roomAdmId && room.roomAdmId !== data.uId) {
+                    socket.in(room.roomAdmId).emit("check permission admin", { uId:data.uId })
+                }
+            })
+
+            socket.on('check permission answer', (data:{uId:string, answer:string})=>{
+                if(data.answer === "NOK"){
+                    socket.in(data.uId).emit("check permision deny")
+                }
+                socket.in(data.uId).emit("check permision accept")
+            })
         });
     }
 }

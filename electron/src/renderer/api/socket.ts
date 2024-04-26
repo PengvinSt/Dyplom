@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable import/no-cycle */
 import { io } from 'socket.io-client';
 import AppApi from './app';
@@ -32,6 +33,7 @@ export default class SocketApi {
       },
     });
     this.socket.connect();
+    this.socket.on('Connected', () => console.log('Connected'));
   };
 
   public disconnect(): void {

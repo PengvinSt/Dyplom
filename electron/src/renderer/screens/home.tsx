@@ -1,8 +1,9 @@
-import { observer } from 'mobx-react';
 import { useState } from 'react';
-import Room from './room';
+import { observer } from 'mobx-react';
 import { useAppContext } from '../utils/contex';
 import { user } from '../store/chat';
+import Room from './room';
+import '../styles/home.css';
 
 function Home() {
   const [roomId, setRoomId] = useState<string>('');
@@ -16,29 +17,45 @@ function Home() {
       roomAdmId: user.uId,
       users: [{ uId: user.uId }],
     });
-    store.chat.setChat({ roomId: newRoomId });
+    store.chat.setChat({
+      roomId: newRoomId,
+      adminId: user.uId,
+      permission: true,
+    });
   };
 
   const connToRoom = () => {
-    store.chat.setChat({ roomId });
+    store.chat.setChat({ roomId, adminId: 'DUMMY_TEXT', permission: false });
   };
 
-  return (
-    <>
+  return store.chat.chat?.roomId !== undefined ? (
+    <Room />
+  ) : (
+    <div className="main-container">
       <h1>User: {user.uId}</h1>
-      <button type="button" onClick={() => createRoom()}>
+      <button
+        type="button"
+        onClick={() => createRoom()}
+        className="create-button"
+      >
         Create room
       </button>
-      <input
-        type="text"
-        onChange={(e) => setRoomId(e.target.value)}
-        value={roomId}
-      />
-      <button type="button" onClick={() => connToRoom()}>
-        Connect to room
-      </button>
-      {store.chat.chat?.roomId !== undefined && <Room />}
-    </>
+      <div className="input-container">
+        <input
+          type="text"
+          onChange={(e) => setRoomId(e.target.value)}
+          value={roomId}
+          className="create-input"
+        />
+        <button
+          type="button"
+          onClick={() => connToRoom()}
+          className="conn-button"
+        >
+          Connect to room
+        </button>
+      </div>
+    </div>
   );
 }
 
