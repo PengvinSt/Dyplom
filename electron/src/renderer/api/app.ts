@@ -4,7 +4,7 @@ import axios from 'axios';
 import AppStore from '../store/app';
 import ChatApi from './chat';
 import SocketApi from './socket';
-import { user } from '../store/chat';
+import { user } from '../utils/hash';
 
 export const SERVER_URL = 'http://localhost:3000';
 

@@ -2,10 +2,10 @@
 import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { useAppContext } from '../utils/contex';
-import { user } from '../store/chat';
 import { IMessage } from '../interfaces/message';
 import '../styles/room.css';
 import Modal from '../components/modal/modal';
+import HashCore, { user } from '../utils/hash';
 
 function Room() {
   const { store, api } = useAppContext();
@@ -37,7 +37,7 @@ function Room() {
       api.socket.socket.on(
         'chat message send',
         (data: { uId: string; msg: string }) => {
-          const newMsg = data.msg.split('12312312321')[1];
+          const newMsg = HashCore.Decrypt(data.msg);
           // eslint-disable-next-line prefer-destructuring
           const fillData = {
             uId: data.uId,
@@ -46,6 +46,9 @@ function Room() {
           setNewMessage((arr) => [...arr, fillData]);
         },
       );
+      api.socket.socket.on('chat message admin', (data: { uId: string }) => {
+        if (data.uId === user.uId) store.chat.setChat(undefined);
+      });
       api.socket.socket.on('admin left close room', () => {
         store.chat.setChat(undefined);
       });
@@ -62,6 +65,7 @@ function Room() {
         api.socket.socket.on('check permision accept', () => {
           store.chat.setPermission(true);
         });
+
         api.socket.socket.on('check permision deny', () => {
           store.chat.setChat(undefined);
         });
@@ -114,7 +118,7 @@ function Room() {
   }, []);
 
   const sendMessage = () => {
-    const newMsg = `12312312321${message}`;
+    const newMsg = HashCore.Encrypt(message);
     const data: IMessage = {
       roomId: store.chat.chat ? store.chat.chat?.roomId : '',
       senderId: user.uId,

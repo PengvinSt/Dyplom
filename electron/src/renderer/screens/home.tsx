@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { observer } from 'mobx-react';
 import { useAppContext } from '../utils/contex';
-import { user } from '../store/chat';
 import Room from './room';
 import '../styles/home.css';
+import HashCore, { user } from '../utils/hash';
 
 function Home() {
   const [roomId, setRoomId] = useState<string>('');
@@ -11,7 +11,7 @@ function Home() {
   const { store, api } = useAppContext();
 
   const createRoom = async () => {
-    const newRoomId = `${Math.floor(Math.random() * 100)}`;
+    const newRoomId = HashCore.createRoomId();
     await api.chat.createRoom({
       roomId: newRoomId,
       roomAdmId: user.uId,
